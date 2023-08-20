@@ -69,3 +69,13 @@ int handle_width(const char *format, int *i, va_list args);
 int handle_precision(const char *format, int *i, va_list args);
 int handle_size(const char *format, int *i);
 
+/* FUNCTIONS TO HANDLE PRINTING */
+int handle_characters(char c, char buffer[], int flags, int width);
+int handle_num_format(int ind, char buffer[], int flags, int width,
+	 int precision, int length, char padding, char extra_char);
+int handle_numbers(int is_negative, int ind, char buffer[], int flags,
+	 int width, int precision);
+int handle_unsigned(int ind, char buffer[], int flags, int width,
+	 int precision);
+int handle_pointer(char buffer[], int ind, int length, int width,
+	 int flags, char padding, char extra_char, int padd_start);

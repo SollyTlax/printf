@@ -188,5 +188,3 @@ int handle_rot13str(va_list types, char buffer[],
 	}
 	return (count);
 }
-
-

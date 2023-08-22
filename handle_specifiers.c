@@ -22,49 +22,36 @@
 int handle_specifiers(const char *fmt, int *ind, va_list args, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	int get_length = 0;
-
+	int i, unknow_len = 0, printed_chars = -1;
 	fmt_t fmt_types[] = {
-	{'c', handle_char}, {'s', handle_string}, {'%', handle_percent},
-	{'i', handle_int}, {'d', handle_int}, {'b', handle_binary},
-	{'u', handle_unsigned}, {'o', handle_octal}, {'x', handle_hexadecimal},
-	{'X', handle_hexa_upper}, {'p', handle_pointer}, {'S', handle_
-							 non_printable},
-	{'r', handle_reverse}, {'R', handle_rot13str}, {'\0', NULL}
+		{'c', handle_char}, {'s', handle_string}, {'%', handle_percent},
+		{'i', handle_int}, {'d', handle_int}, {'b', handle_binary},
+		{'u', handle_uns}, {'o', handle_octal},
+		{'x', handle_hexadecimal}, {'X', print_hexa_upper},
+		{'p', handle_pointer}, {'S', handle_non_printable},
+		{'r', handle_reverse}, {'R', handle_rot13str}, {'\0', NULL}
 	};
-
-	for (int i = 0; fmt_types[i].fmt != '\0'; i++)
+	for (i = 0; fmt_types[i].fmt != '\0'; i++)
 		if (fmt[*ind] == fmt_types[i].fmt)
-			return (fmt_types[i].fn(args, buffer, flags, width,
-					 precision, size));
-	}
+			return (fmt_types[i].fn(args, buffer, flags, width, precision, size));
 
-	if (fmt[*ind] == '\0')
-		return (-1);
-	if (fmt[*ind] == '%')
+	if (fmt_types[i].fmt == '\0')
 	{
-		get_length += write(1, "%", 1);
+		if (fmt[*ind] == '\0')
+			return (-1);
+		unknow_len += write(1, "%%", 1);
 		if (fmt[*ind - 1] == ' ')
-		{
-			get_length += write(1, " ", 1);
-		}
+			unknow_len += write(1, " ", 1);
 		else if (width)
 		{
-			(*ind)--;
+			--(*ind);
 			while (fmt[*ind] != ' ' && fmt[*ind] != '%')
-				(*ind)--;
-
+				--(*ind);
 			if (fmt[*ind] == ' ')
-				(*ind)--;
+				--(*ind);
 			return (1);
 		}
+		unknow_len += write(1, &fmt[*ind], 1);
+		return (unknow_len);
 	}
-	else
-	{
-		get_length += write(1, &fmt[*ind], 1);
-	}
-
-	(*ind)++;
-	return (get_length);
-
-}
+	return (printed_chars);

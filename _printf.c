@@ -26,7 +26,7 @@ int _printf(const char *format, ...)
 	if (format == NULL)
 		return (-1);
 
-	for (1 = 0; format && format[i] != '\0'; i++)
+	for (i = 0; format && format[i] != '\0'; i++)
 	{
 		if (format[i] != '%')
 		{
@@ -37,7 +37,7 @@ int _printf(const char *format, ...)
 		}
 	else
 	{
-		handle_buffer(buffer, &buff_index);
+		handle_buffer(buffer, &buffer_index);
 		flags = handle_flags(format, &i);
 		width = handle_width(format, &i, args);
 		precision = handle_precision(format, &i, args);
@@ -58,11 +58,11 @@ int _printf(const char *format, ...)
  * handle_buffer - print the contents of a character buffer and then
  * resets the buffer index
  * @buffer: array of charactors
- * @buffer_index: a pointer to an integer in buffer index
+ * @buffer_ind: a pointer to an integer in buffer index
  */
-void handle_buffer(char buffer[], int *buffer_index)
+void handle_buffer(char buffer[], int *buffer_ind)
 {
-	if (buffer_index > 0)
-		write(1, &buffer[0], *buffer_index);
-	*buffer_index = 0;
+	if (buffer_ind > 0)
+		write(1, &buffer[0], *buffer_ind);
+	*buffer_ind = 0;
 }

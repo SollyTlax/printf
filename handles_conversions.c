@@ -71,7 +71,7 @@ int handle_char(va_list types, char buffer[],
 {
 	char c = va_arg(types, int);
 
-	return (handle_characters(c, buffer, flags, width));
+	return (handle_characters(c, buffer, flags, width, precision, size));
 }
 
 /**
@@ -89,6 +89,8 @@ int handle_char(va_list types, char buffer[],
 int handle_string(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
+	(void) buffer;
+	(void) size;
 	int length = 0, i;
 	char *str = va_arg(types, char *);
 
@@ -178,5 +180,5 @@ int handle_int(va_list types, char buffer[],
 
 	i++;
 
-	return (handle_numbers(is_negative, i, buffer, flags, width, precision));
+	return (handle_numbers(is_negative, i, buffer, flags, width, precision, size));
 }

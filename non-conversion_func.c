@@ -47,7 +47,7 @@ int handle_width(const char *format, int *i, va_list args)
 
 	for (curr_index = *i + 1; format[curr_index] != '\0'; curr_index++)
 	{
-		if (is_digit(format[curr_index]))
+		if (valid_digit(format[curr_index]))
 		{
 			width *= 10;
 			width += format[curr_index] - '0';
@@ -88,7 +88,7 @@ int handle_precision(const char *format, int *i, va_list args)
 
 	for (curr_index += 1; format[curr_index] != '\0'; curr_index++)
 	{
-		if (is_digit(format[curr_index]))
+		if (valid_digit(format[curr_index]))
 		{
 			precision *= 10;
 			precision += format[curr_index] - '0';

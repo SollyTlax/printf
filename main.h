@@ -21,25 +21,18 @@
 #define UNUSED(x) (void)(x)
 
 /**
- * struct fmt - Struct op
- * @fmt: The format.
- * @fn: The function associated.
+ * struct fmt - struct to define format and associated function
+ * @fmt: the format specifier
+ * @fn: function pointer to associated handler function
  */
-struct fmt
+typedef struct fmt
 {
 	char fmt;
 	int (*fn)(va_list, char[], int, int, int, int);
-};
-
-/**
- * typedef structure fmt fmt_t - struct op
- * @fmt: the format
- * @fm_t: function associated with
- */
-typedef struct fmt fmt_t;
+} fmt_t;
 
 int _printf(const char *format, ...);
-int handle_specifiers(const char *fmt, int *i, va_list args, char buffer[],
+int handle_specifiers(const char *fmt, int *ind, va_list args, char buffer[],
 int flags, int width, int precision, int size);
 
 /* HANDLE CHARS AND STRINGS FUNCTIONS */
@@ -47,8 +40,7 @@ int handle_char(va_list types, char buffer[], int flags, int width,
 	 int precision, int size);
 int handle_string(va_list types, char buffer[], int flags, int width,
 	 int precision, int size);
-int handle_percent(va_list types, char buffer[], int flags, int width,
-	 int precision, int size);
+int handle_percent(void);
 
 /*FUNCTIONS TO HANDLE NUMBERS */
 int handle_int(va_list types, char buffer[], int flags, int width,
@@ -75,13 +67,17 @@ int handle_size(const char *format, int *i);
 /* FUNCTIONS TO HANDLE PRINTING */
 int handle_characters(char c, char buffer[], int flags, int width);
 int handle_num_format(int ind, char buffer[], int flags, int width,
-	 int precision, int length, char padding, char extra_char);
-int handle_numbers(int is_negative, int ind, char buffer[], int flags,
-	 int width, int precision, int size);
-int handle_unsigned(int ind, char buffer[], int flags, int width,
-	 int precision, int size);
+	int precision, int length, char padding, char extra_char);
+int handle_unsigned(int is_negative, int ind, char buffer[], int flags,
+	int width, int precision, int size);
+int handle_number(int is_negative, int ind, char buffer[], int flags,
+	int width, int precision, int size);
 int handle_pointer(char buffer[], int ind, int length, int width,
-	 int flags, char padding, char extra_char, int padd_start);
+	int flags, char padding, char extra_char, int padd_start);
+int handle_reverse(va_list types, char buffer[],
+	int flags, int width, int precision, int size);
+int handle_rot13str(va_list types, char buffer[],
+	int flags, int width, int precision, int size);
 
 /*FUNCTIONS TO HANDLE INPUT VALIDATION */
 int valid_digit(char c);
@@ -90,3 +86,5 @@ int add_hexa_code(char ascii_code, char buffer[], int index);
 long int num_type_conversion(unsigned long int num, int size);
 long int convert_size_number(long int num, int size);
 long int num_type_conversion(unsigned long int num, int size);
+
+#endif MAIN_H

@@ -101,9 +101,23 @@ int handle_num_format(int ind, char buffer[],
 			return (write(1, &buffer[ind], length));
 }
 
-int handle_numbers(int is_negative, int ind, char buffer[],
-	int flags, int width, int precision)
+/**
+ * handle_number - Prints a string
+ * @is_negative: Lista of arguments
+ * @ind: char types.
+ * @buffer: Buffer array to handle print
+ * @flags: Calculates active flags
+ * @width: get width.
+ * @precision: precision specifier
+ * @size: Size specifier
+ *
+ * Return: Number of chars printed.
+ */
+
+int handle_number(int is_negative, int ind, char buffer[], int flags,
+	int width, int precision, int size)
 {
+	(void) size;
 	int length = BUFF_SIZE - ind - 1;
 	char padding = ' ', extra_char = 0;
 
@@ -122,16 +136,20 @@ int handle_numbers(int is_negative, int ind, char buffer[],
 
 /**
 * handle_unsigned - format and write unsigned positive numeric values
+* @is_negative: Number indicating if the num is negative
 * @ind: current index in the buffer
 * @buffer: buffer itself
 * @flags: formatting flags
 * @precision: precision specifier
 * @width: formats width
+* @size: Size specifier
 * Return: number of characters written
 */
-int handle_unsigned(int ind, char buffer[],
-	int flags, int width, int precision)
+int handle_unsigned(int is_negative, int ind, char buffer[], int flags,
+	int width, int precision, int size)
 {
+	(void) is_negative;
+	(void) size;
 	int length = BUFF_SIZE - ind - 1, i = 0;
 	char padding = ' ';
 
@@ -225,3 +243,5 @@ int handle_pointer(char buffer[], int ind, int length,
 		buffer[--ind] = extra_char;
 	return (write(1, &buffer[ind], BUFF_SIZE - ind - 1));
 }
+
+

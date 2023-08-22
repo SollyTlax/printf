@@ -99,9 +99,10 @@ int handle_num_format(int ind, char buffer[],
 				write(1, &buffer[ind], length - (1 - padd_start)));
 		}
 	}
-			if (extra_char)
+/* Write the content with an extra character (e.g., sign) */
+				if (extra_char)
 				buffer[--ind] = extra_char;
-			return (write(1, &buffer[ind], length) + write(1, &buffer[1], i - 1));
+			return (write(1, &buffer[ind], length));
 }
 
 int handle_numbers(int is_negative, int ind, char buffer[],
@@ -228,4 +229,3 @@ int handle_pointer(char buffer[], int ind, int length,
 		buffer[--ind] = extra_char;
 	return (write(1, &buffer[ind], BUFF_SIZE - ind - 1));
 }
-

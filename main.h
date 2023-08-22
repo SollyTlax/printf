@@ -90,3 +90,5 @@ int add_hexa_code(char ascii_code, char buffer[], int index);
 long int num_type_conversion(unsigned long int num, int size);
 long int convert_size_number(long int num, int size);
 long int num_type_conversion(unsigned long int num, int size);
+
+#endif /* MAIN_H */

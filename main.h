@@ -17,6 +17,9 @@
 #define SIZE_SHORT 1
 #define SIZE_LONG 2
 
+/* DEFINE UNUSED VARIABLES OR PARAMETERS*/
+#define UNUSED(x) (void)(x)
+
 /**
  * struct fmt - Struct op
  * @fmt: The format.
@@ -52,7 +55,7 @@ int handle_int(va_list types, char buffer[], int flags, int width,
 	 int precision, int size);
 int handle_binary(va_list types, char buffer[], int flags, int width,
 	 int precision, int size);
-int handle_unsigned(va_list types, char buffer[], int flags, int width,
+int handle_uns(va_list types, char buffer[], int flags, int width,
 	 int precision, int size);
 int handle_octal(va_list types, char buffer[], int flags, int width,
 	 int precision, int size);
@@ -74,8 +77,16 @@ int handle_characters(char c, char buffer[], int flags, int width);
 int handle_num_format(int ind, char buffer[], int flags, int width,
 	 int precision, int length, char padding, char extra_char);
 int handle_numbers(int is_negative, int ind, char buffer[], int flags,
-	 int width, int precision);
+	 int width, int precision, int size);
 int handle_unsigned(int ind, char buffer[], int flags, int width,
-	 int precision);
+	 int precision, int size);
 int handle_pointer(char buffer[], int ind, int length, int width,
 	 int flags, char padding, char extra_char, int padd_start);
+
+/*FUNCTIONS TO HANDLE INPUT VALIDATION */
+int valid_digit(char c);
+int valid_printable(char c);
+int add_hexa_code(char ascii_code, char buffer[], int index);
+long int num_type_conversion(unsigned long int num, int size);
+long int convert_size_number(long int num, int size);
+long int num_type_conversion(unsigned long int num, int size);

@@ -64,13 +64,10 @@ int handle_num_format(int ind, char buffer[],
 		if (precision == 0 && ind == BUFF_SIZE - 2 &&
 	buffer[ind] == '0' && width == 0)
 		return (0);
-
 	if (precision == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0')
 		buffer[ind] = padding = ' ';
-
 	while (precision > length)
 		buffer[--ind] = '0', length++;
-
 	if (extra_char != 0)
 		length++;
 	if (width > length)
@@ -78,7 +75,6 @@ int handle_num_format(int ind, char buffer[],
 		for (i = 1; i < width - length + 1; i++)
 			buffer[i] = padding;
 		buffer[i] = '\0';
-
 		if (flags & FLAG_MINUS && padding == ' ')
 		{
 			if (extra_char)
@@ -87,9 +83,9 @@ int handle_num_format(int ind, char buffer[],
 		}
 		else if (!(flags & FLAG_MINUS) && padding == ' ')
 		{
-			if (extra_char)
-				buffer[--ind] = extra_char;
-			return (write(1, &buffer[1], i - 1) + write(1, &buffer[ind], length));
+		if (extra_char)
+			buffer[--ind] = extra_char;
+		return (write(1, &buffer[1], i - 1) + write(1, &buffer[ind], length));
 		}
 		else if (!(flags & FLAG_MINUS) && padding == '0')
 		{

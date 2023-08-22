@@ -68,7 +68,7 @@ int handle_size(const char *format, int *i);
 int handle_characters(char c, char buffer[], int flags, int width);
 int handle_num_format(int ind, char buffer[], int flags, int width,
 	int precision, int length, char padding, char extra_char);
-int handle_unsigned(int is_negative, int ind, char buffer[], int flags,
+int handle_unsign(int is_negative, int ind, char buffer[], int flags,
 	int width, int precision, int size);
 int handle_number(int is_negative, int ind, char buffer[], int flags,
 	int width, int precision, int size);
@@ -87,4 +87,4 @@ long int num_type_conversion(unsigned long int num, int size);
 long int convert_size_number(long int num, int size);
 long int num_type_conversion(unsigned long int num, int size);
 
-#endif MAIN_H
+#endif /* MAIN_H */

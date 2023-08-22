@@ -37,8 +37,7 @@ int handle_uns(va_list types, char buffer[],
 	}
 
 	i++;
-
-	return (handle_numbers(0, i, buffer, flags, width, precision, size);
+	return (handle_unsign(0, i, buffer, flags, width, precision, size));
 }
 /**
  * handle_octal - Prints an unsigned number in octal notation
@@ -78,7 +77,7 @@ int handle_octal(va_list types, char buffer[],
 
 	i++;
 
-	return (handle_numbers(0, i, buffer, flags, width, precision, size));
+	return (handle_unsign(0, i, buffer, flags, width, precision, size));
 }
 
 
@@ -158,7 +157,5 @@ int handle_hexa(va_list types, char map_to[], char buffer[],
 	}
 
 	i++;
-
-	return (handle_numbers(0, i, buffer, flags, width, precision, size));
+	return (handle_unsign(0, i, buffer, flags, width, precision, size));
 }
-

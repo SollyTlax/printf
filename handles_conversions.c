@@ -24,32 +24,27 @@ int handle_binary(va_list types, char buffer[],
 	unsigned int a[32];
 	int count;
 
-	Unused parameters to prevent compiler warnings
 	(void)buffer;
 	(void)flags;
 	(void)width;
 	(void)precision;
 	(void)size;
 
-	Retrieve the unsigned integer argument from va_list
 	n = va_arg(types, unsigned int);
 	m = 2147483648; /* (2 ^ 31) */
 	a[0] = n / m;
 
-	Generate binary representation of the integer
 	for (i = 1; i < 32; i++)
 	{
 		m /= 2;
 		a[i] = (n / m) % 2;
 	}
 
-	Print the binary representation
 	for (i = 0, sum = 0, count = 0; i < 32; i++)
 	{
 		sum += a[i];
 		if (sum || i == 31)
 		{
-		Convert and write the binary digit as a character
 			char z = '0' + a[i];
 
 			write(1, &z, 1);
@@ -57,7 +52,6 @@ int handle_binary(va_list types, char buffer[],
 		}
 	}
 
-	Return the count of characters written
 	return (count);
 }
 

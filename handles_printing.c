@@ -1,3 +1,9 @@
+/*
+ * File: handles_printing.c
+ * Auth: Solly Matlakala
+ *	 Algah Nkosi
+ */
+
 #include "main.h"
 
 /**
@@ -6,7 +12,6 @@
  * @buffer: Array of chars to hold the formatted value
  * @flags: Flags specifier
  * @width: Width specifier
- *
  * Return: Number of written chars.
  */
 int handle_characters(char c, char buffer[], int flags, int width)
@@ -20,14 +25,12 @@ int handle_characters(char c, char buffer[], int flags, int width)
 	buffer[i++] = c;
 	buffer[i] = '\0';
 
-	/* Handle width padding */
 	if (width > 1)
 	{
 		buffer[BUFF_SIZE - 1] = '\0';
 		for (i = 0; i < width - 1; i++)
 			buffer[BUFF_SIZE - i - 2] = padding;
 
-		/* Handle different alignment cases */
 		if (flags & FLAG_MINUS)
 			return (write(1, &buffer[0], 1) +
 					write(1, &buffer[BUFF_SIZE - i - 1], width - 1));
@@ -36,7 +39,6 @@ int handle_characters(char c, char buffer[], int flags, int width)
 					write(1, &buffer[0], 1));
 	}
 
-	/* No width padding needed, write the content directly */
 	return (write(1, &buffer[0], 1));
 }
 
@@ -50,7 +52,6 @@ int handle_characters(char c, char buffer[], int flags, int width)
  * @length: Length of the number
  * @padding: Char representing the padding
  * @extra_char: Char representing an extra character (e.g., sign)
- *
  * Return: Number of written chars.
  */
 
@@ -59,25 +60,25 @@ int handle_num_format(int ind, char buffer[],
 	int length, char padding, char extra_char)
 {
 	int i, padd_start = 1;
-/* Handle cases where no characters are printed */
-	if (prec == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0' && width == 0)
+
+		if (precision == 0 && ind == BUFF_SIZE - 2 &&
+	buffer[ind] == '0' && width == 0)
 		return (0);
-/* Handle cases where width is displayed with padding ' ' */
+
 	if (precision == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0')
 		buffer[ind] = padding = ' ';
-/* Ensure precision and length are consistent */
+
 	while (precision > length)
 		buffer[--ind] = '0', length++;
-/* Adjust length if an extra character (e.g., sign) is present */
+
 	if (extra_char != 0)
 		length++;
-/* Handle width padding */
 	if (width > length)
 	{
 		for (i = 1; i < width - length + 1; i++)
 			buffer[i] = padding;
 		buffer[i] = '\0';
-/* Handle different alignment cases */
+
 		if (flags & FLAG_MINUS && padding == ' ')
 		{
 			if (extra_char)
@@ -98,11 +99,11 @@ int handle_num_format(int ind, char buffer[],
 				write(1, &buffer[ind], length - (1 - padd_start)));
 		}
 	}
-/* Write the content with an extra character (e.g., sign) */
-	if (extra_char)
-		buffer[--ind] = extra_char;
-	return (write(1, &buffer[ind], length));
+			if (extra_char)
+				buffer[--ind] = extra_char;
+			return (write(1, &buffer[ind], length) + write(1, &buffer[1], i - 1));
 }
+
 int handle_numbers(int is_negative, int ind, char buffer[],
 	int flags, int width, int precision)
 {
@@ -118,7 +119,7 @@ int handle_numbers(int is_negative, int ind, char buffer[],
 		extra_char = '+';
 	else if (flags & FLAG_SPACE)
 		extra_char = ' ';
-return (handle_num_format(ind, buffer, flags, width, precision,
+	return (handle_num_format(ind, buffer, flags, width, precision,
 		length, padding, extra_char));
 }
 
@@ -128,11 +129,11 @@ return (handle_num_format(ind, buffer, flags, width, precision,
 * @buffer: buffer itself
 * @flags: formatting flags
 * @precision: precision specifier
-*
+* @width: formats width
 * Return: number of characters written
 */
-
-int handle_unsigned(int ind, char buffer[], int flags, int width, int prec)
+int handle_unsigned(int ind, char buffer[],
+	int flags, int width, int precision)
 {
 	int length = BUFF_SIZE - ind - 1, i = 0;
 	char padding = ' ';
@@ -140,23 +141,25 @@ int handle_unsigned(int ind, char buffer[], int flags, int width, int prec)
 	if (precision == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0')
 		return (0);
 
-if (precision > 0 && precision < length)
+	if (precision > 0 && precision < length)
 		padding = ' ';
-while (precision > length)
+
+	while (precision > length)
 	{
 		buffer[--ind] = '0';
 		length++;
 	}
 
-if ((flags & FLAG_ZERO) && !(flags & FLAG_MINUS))
+	if ((flags & FLAG_ZERO) && !(flags & FLAG_MINUS))
 		padding = '0';
-if (width > length)
+
+	if (width > length)
 	{
 		for (i = 0; i < width - length; i++)
-			buffer[i] = padding
-
+			buffer[i] = padding;
 		buffer[i] = '\0';
-if (flags & FLAG_MINUS)
+
+		if (flags & FLAG_MINUS)
 		{
 			return (write(1, &buffer[ind], length) + write(1, &buffer[0], i));
 		}
@@ -165,8 +168,10 @@ if (flags & FLAG_MINUS)
 			return (write(1, &buffer[0], i) + write(1, &buffer[ind], length));
 		}
 	}
-return (write(1, &buffer[ind], length));
+
+	return (write(1, &buffer[ind], length));
 }
+
 /**
 * handle_pointer - handles the formatting and writing of memory address pointer
 * @buffer: buffer itself characters
@@ -177,20 +182,19 @@ return (write(1, &buffer[ind], length));
 * @padding: padding character
 * @extra_char: represent extra character
 * @padd_start: index of padding start
-*
 * Return: number of written characters
 */
 int handle_pointer(char buffer[], int ind, int length,
 	int width, int flags, char padding, char extra_char, int padd_start)
 {
 	int i;
-/* Handle width padding */
+
 	if (width > length)
 	{
 		for (i = 3; i < width - length + 3; i++)
 			buffer[i] = padding;
 		buffer[i] = '\0';
-/* Handle different alignment cases */
+
 		if (flags & FLAG_MINUS && padding == ' ')
 		{
 			buffer[--ind] = 'x';
@@ -217,11 +221,11 @@ int handle_pointer(char buffer[], int ind, int length,
 				write(1, &buffer[ind], length - (1 - padd_start) - 2));
 		}
 	}
-/* No width padding needed, write the content directly */
+
 	buffer[--ind] = 'x';
 	buffer[--ind] = '0';
 	if (extra_char)
-	buffer[--ind] = extra_char;
+		buffer[--ind] = extra_char;
 	return (write(1, &buffer[ind], BUFF_SIZE - ind - 1));
 }
 

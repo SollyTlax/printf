@@ -23,7 +23,7 @@ int handle_uns(va_list types, char buffer[],
 	int i = BUFF_SIZE - 2;
 	unsigned int num = va_arg(types, unsigned int);
 
-	num = convert_size_unsgnd(num, size);
+	num = num_type_conversion(num, size);
 
 	if (num == 0)
 		buffer[i--] = '0';
@@ -38,7 +38,7 @@ int handle_uns(va_list types, char buffer[],
 
 	i++;
 
-	return (handle_unsgnd(0, i, buffer, flags, width, precision, size));
+	return (handle_uns(0, i, buffer, flags, width, precision, size));
 }
 
 /************* PRINT UNSIGNED NUMBER IN OCTAL ****************/
@@ -80,7 +80,7 @@ int handle_octal(va_list types, char buffer[],
 
 	i++;
 
-	return (handle_unsgnd(0, i, buffer, flags, width, precision, size));
+	return (handle_uns(0, i, buffer, flags, width, precision, size));
 }
 
 
@@ -163,6 +163,6 @@ int handle_hexa(va_list types, char map_to[], char buffer[],
 
 	i++;
 
-	return (handle_unsgnd(0, i, buffer, flags, width, precision, size));
+	return (handle_uns(0, i, buffer, flags, width, precision, size));
 }
 

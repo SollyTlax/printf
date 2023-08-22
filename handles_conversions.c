@@ -180,5 +180,6 @@ int handle_int(va_list types, char buffer[],
 
 	i++;
 
-	return (handle_numbers(is_negative, i, buffer, flags, width, precision, size));
+	return (handle_number(is_negative, i, buffer, flags, width, precision,
+		size));
 }

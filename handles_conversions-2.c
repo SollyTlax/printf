@@ -56,7 +56,7 @@
  * @size: Size specifier
  * Return: Number of characters printed.
  */
-int handle_pointer(va_list types, char map_to[], char buffer[],
+int handle_pointer(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
 	char extra_char = 0, padding = ' ';

@@ -58,8 +58,8 @@ int handle_hexa_upper(va_list types, char buffer[], int flags, int width,
 	int precision, int size);
 int handle_hexa(va_list types, char map_to[], char buffer[], int flags,
 	char flag_ch, int width, int precision, int size);
-int handle_pointer(va_list types, char map_to[], char buffer[], int flags,
-	char flags, int width, int precision, int size);
+int handle_pointer(va_list types, char buffer[], int flags,
+	int width, int precision, int size);
 int handle_non_printable(va_list types, char buffer[], int flags, int width,
 	int precision, int size);
 

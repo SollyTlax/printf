@@ -163,6 +163,6 @@ int handle_hexa(va_list types, char map_to[], char buffer[],
 
 	i++;
 
-	return (handle_uns(0, i, buffer, flags, width, precision, size));
+	return (handle_uns(0, buffer, flags, width, precision, size));
 }
 

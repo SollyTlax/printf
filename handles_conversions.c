@@ -1,7 +1,7 @@
 /*
  * File: handles_conversions.c
  * Auth: Solly Matlakala
- *	 Algah Nkosi
+ *	Algah Nkosi
  */
 
 #include "main.h"
@@ -178,5 +178,6 @@ int handle_int(va_list types, char buffer[],
 
 	i++;
 
-	return (handle_numbers(is_negative, i, buffer, flags, width, precision));
+	return (handle_numbers(is_negative, i, buffer,
+		flags, width, precision, size));
 }

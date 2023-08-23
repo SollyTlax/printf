@@ -5,246 +5,87 @@
  */
 
 #include "main.h"
-
 /**
- * handle_characters - Handle character formatting and writing
- * @c: Character to be written
- * @buffer: Array of chars to hold the formatted value
- * @flags: Flags specifier
- * @width: Width specifier
- * Return: Number of written chars.
- */
-int handle_characters(char c, char buffer[], int flags, int width)
-{
-	int i = 0;
-	char padding = ' ';
-
-	if (flags & FLAG_ZERO)
-		padding = '0';
-
-	buffer[i++] = c;
-	buffer[i] = '\0';
-
-	if (width > 1)
-	{
-		buffer[BUFF_SIZE - 1] = '\0';
-		for (i = 0; i < width - 1; i++)
-			buffer[BUFF_SIZE - i - 2] = padding;
-
-		if (flags & FLAG_MINUS)
-			return (write(1, &buffer[0], 1) +
-					write(1, &buffer[BUFF_SIZE - i - 1], width - 1));
-		else
-			return (write(1, &buffer[BUFF_SIZE - i - 1], width - 1) +
-					write(1, &buffer[0], 1));
-	}
-
-	return (write(1, &buffer[0], 1));
-}
-
-/**
- * handle_num_format - Handle numeric value formatting and writing
- * @ind: Index at which the number starts in the buffer
- * @buffer: Array of chars to hold the formatted value
- * @flags: Flags specifier
- * @width: Width specifier
- * @precision: Precision specifier
- * @length: Length of the number
- * @padding: Char representing the padding
- * @extra_char: Char representing an extra character (e.g., sign)
- * Return: Number of written chars.
- */
-
-int handle_num_format(int ind, char buffer[],
-	int flags, int width, int precision,
-	int length, char padding, char extra_char)
-{
-	int i, padd_start = 1;
-
-		if (precision == 0 && ind == BUFF_SIZE - 2 &&
-	buffer[ind] == '0' && width == 0)
-		return (0);
-	if (precision == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0')
-		buffer[ind] = padding = ' ';
-	while (precision > length)
-		buffer[--ind] = '0', length++;
-	if (extra_char != 0)
-		length++;
-	if (width > length)
-	{
-		for (i = 1; i < width - length + 1; i++)
-			buffer[i] = padding;
-		buffer[i] = '\0';
-		if (flags & FLAG_MINUS && padding == ' ')
-		{
-			if (extra_char)
-				buffer[--ind] = extra_char;
-			return (write(1, &buffer[ind], length) + write(1, &buffer[1], i - 1));
-		}
-		else if (!(flags & FLAG_MINUS) && padding == ' ')
-		{
-		if (extra_char)
-			buffer[--ind] = extra_char;
-		return (write(1, &buffer[1], i - 1) + write(1, &buffer[ind], length));
-		}
-		else if (!(flags & FLAG_MINUS) && padding == '0')
-		{
-			if (extra_char)
-				buffer[--padd_start] = extra_char;
-			return (write(1, &buffer[padd_start], i - padd_start) +
-				write(1, &buffer[ind], length - (1 - padd_start)));
-		}
-	}
-/* Write the content with an extra character (e.g., sign) */
-				if (extra_char)
-				buffer[--ind] = extra_char;
-			return (write(1, &buffer[ind], length));
-}
-
-/**
- * handle_number - Prints a string
- * @is_negative: Lista of arguments
- * @ind: char types.
- * @buffer: Buffer array to handle print
- * @flags: Calculates active flags
- * @width: get width.
- * @precision: precision specifier
- * @size: Size specifier
+ * is_printable - Evaluates if a char is printable
+ * @c: Char to be evaluated.
  *
- * Return: Number of chars printed.
+ * Return: 1 if c is printable, 0 otherwise
  */
-
-int handle_number(int is_negative, int ind, char buffer[], int flags,
-	int width, int precision, int size)
+int is_printable(char c)
 {
+	if (c >= 32 && c < 127)
+		return (1);
 
-	int length = BUFF_SIZE - ind - 1;
-	char padding = ' ', extra_char = 0;
-
-	(void) size;
-
-	if ((flags & FLAG_ZERO) && !(flags & FLAG_MINUS))
-		padding = '0';
-
-	if (is_negative)
-		extra_char = '-';
-	else if (flags & FLAG_PLUS)
-		extra_char = '+';
-	else if (flags & FLAG_SPACE)
-		extra_char = ' ';
-	return (handle_num_format(ind, buffer, flags, width, precision,
-		length, padding, extra_char));
+	return (0);
 }
 
 /**
-* handle_unsign - format and write unsigned positive numeric values
-* @is_negative: Number indicating if the num is negative
-* @ind: current index in the buffer
-* @buffer: buffer itself
-* @flags: formatting flags
-* @precision: precision specifier
-* @width: formats width
-* @size: Size specifier
-* Return: number of characters written
-*/
-int handle_unsign(int is_negative, int ind, char buffer[], int flags,
-	int width, int precision, int size)
+ * append_hexa_code - Append ascci in hexadecimal code to buffer
+ * @buffer: Array of chars.
+ * @i: Index at which to start appending.
+ * @ascii_code: ASSCI CODE.
+ * Return: Always 3
+ */
+int append_hexa_code(char ascii_code, char buffer[], int i)
 {
+	char map_to[] = "0123456789ABCDEF";
+	/* The hexa format code is always 2 digits long */
+	if (ascii_code < 0)
+		ascii_code *= -1;
 
-	int length = BUFF_SIZE - ind - 1, i = 0;
-	char padding = ' ';
+	buffer[i++] = '\\';
+	buffer[i++] = 'x';
 
-	(void) is_negative;
-	(void) size;
-	if (precision == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0')
-		return (0);
+	buffer[i++] = map_to[ascii_code / 16];
+	buffer[i] = map_to[ascii_code % 16];
 
-	if (precision > 0 && precision < length)
-		padding = ' ';
-
-	while (precision > length)
-	{
-		buffer[--ind] = '0';
-		length++;
-	}
-
-	if ((flags & FLAG_ZERO) && !(flags & FLAG_MINUS))
-		padding = '0';
-
-	if (width > length)
-	{
-		for (i = 0; i < width - length; i++)
-			buffer[i] = padding;
-		buffer[i] = '\0';
-
-		if (flags & FLAG_MINUS)
-		{
-			return (write(1, &buffer[ind], length) + write(1, &buffer[0], i));
-		}
-		else
-		{
-			return (write(1, &buffer[0], i) + write(1, &buffer[ind], length));
-		}
-	}
-
-	return (write(1, &buffer[ind], length));
+	return (3);
 }
 
 /**
-* write_pointer - handles the formatting and writing of memory address pointer
-* @buffer: buffer itself characters
-* @ind: current undex where the buffer starts
-* @length: the length of the number
-* @width: width specifier
-* @flags: flags specifier
-* @padding: padding character
-* @extra_char: represent extra character
-* @padd_start: index of padding start
-* Return: number of written characters
-*/
-int write_pointer(char buffer[], int ind, int length,
-	int width, int flags, char padding, char extra_char, int padd_start)
+ * is_digit - Verifies if a char is a digit
+ * @c: Char to be evaluated
+ *
+ * Return: 1 if c is a digit, 0 otherwise
+ */
+int is_digit(char c)
 {
-	int i;
+	if (c >= '0' && c <= '9')
+		return (1);
 
-	if (width > length)
-	{
-		for (i = 3; i < width - length + 3; i++)
-			buffer[i] = padding;
-		buffer[i] = '\0';
-
-		if (flags & FLAG_MINUS && padding == ' ')
-		{
-			buffer[--ind] = 'x';
-			buffer[--ind] = '0';
-			if (extra_char)
-				buffer[--ind] = extra_char;
-			return (write(1, &buffer[ind], length) + write(1, &buffer[3], i - 3));
-		}
-		else if (!(flags & FLAG_MINUS) && padding == ' ')
-		{
-			buffer[--ind] = 'x';
-			buffer[--ind] = '0';
-			if (extra_char)
-				buffer[--ind] = extra_char;
-			return (write(1, &buffer[3], i - 3) + write(1, &buffer[ind], length));
-		}
-		else if (!(flags & FLAG_MINUS) && padding == '0')
-		{
-			if (extra_char)
-				buffer[--padd_start] = extra_char;
-			buffer[1] = '0';
-			buffer[2] = 'x';
-			return (write(1, &buffer[padd_start], i - padd_start) +
-				write(1, &buffer[ind], length - (1 - padd_start) - 2));
-		}
-	}
-
-	buffer[--ind] = 'x';
-	buffer[--ind] = '0';
-	if (extra_char)
-		buffer[--ind] = extra_char;
-	return (write(1, &buffer[ind], BUFF_SIZE - ind - 1));
+	return (0);
 }
 
+/**
+ * convert_size_number - Casts a number to the specified size
+ * @num: Number to be casted.
+ * @size: Number indicating the type to be casted.
+ *
+ * Return: Casted value of num
+ */
+long int convert_size_number(long int num, int size)
+{
+	if (size == S_LONG)
+		return (num);
+	else if (size == S_SHORT)
+		return ((short)num);
 
+	return ((int)num);
+}
+
+/**
+ * convert_size_unsgnd - Casts a number to the specified size
+ * @num: Number to be casted
+ * @size: Number indicating the type to be casted
+ *
+ * Return: Casted value of num
+ */
+long int convert_size_unsgnd(unsigned long int num, int size)
+{
+	if (size == S_LONG)
+		return (num);
+	else if (size == S_SHORT)
+		return ((unsigned short)num);
+
+	return ((unsigned int)num);
+}

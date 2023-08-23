@@ -32,7 +32,7 @@
 
 	while (str[i] != '\0')
 	{
-		if (handle_non_printable(str[i]))
+		if (valid_printable(str[i]))
 			buffer[i + offset] = str[i];
 		else
 			offset += add_hexa_code(str[i], buffer, i + offset);
@@ -48,6 +48,7 @@
 /**
  * handle_pointer - Prints the value of a pointer variable
  * @types: Lists  of arguments
+ * @map_to: array to handle print
  * @buffer: Buffer array to handle print
  * @flags: Calculates active flags
  * @width: get width
@@ -55,7 +56,7 @@
  * @size: Size specifier
  * Return: Number of characters printed.
  */
-int handle_pointer(va_list types, char buffer[],
+int handle_pointer(va_list types, char map_to[], char buffer[],
 	int flags, int width, int precision, int size)
 {
 	char extra_char = 0, padding = ' ';
@@ -77,7 +78,7 @@ int handle_pointer(va_list types, char buffer[],
 
 	while (num_addrs > 0)
 	{
-		buffer[index--] = map_to[num_addrs % 16];
+		buffer[ind--] = map_to[num_addrs % 16];
 		num_addrs /= 16;
 		length++;
 	}
@@ -89,7 +90,7 @@ int handle_pointer(va_list types, char buffer[],
 	else if (flags & FLAG_SPACE)
 		extra_char = ' ', length++;
 
-	index++;
+	ind++;
 
 	/*return (write(1, &buffer[i], BUFF_SIZE - i - 1));*/
 	return (write_pointer(buffer, ind, length,

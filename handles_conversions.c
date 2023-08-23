@@ -89,10 +89,10 @@ int handle_char(va_list types, char buffer[],
 int handle_string(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	(void) buffer;
-	(void) size;
 	int length = 0, i;
 	char *str = va_arg(types, char *);
+	(void) size;
+	(void) buffer;
 
 	if (str == NULL)
 	{

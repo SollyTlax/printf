@@ -32,7 +32,7 @@
 
 	while (str[i] != '\0')
 	{
-		if (handle_printable(str[i]))
+		if (handle_non_printable(str[i]))
 			buffer[i + offset] = str[i];
 		else
 			offset += add_hexa_code(str[i], buffer, i + offset);

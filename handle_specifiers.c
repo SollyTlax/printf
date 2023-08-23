@@ -28,7 +28,7 @@ int handle_specifiers(const char *fmt, int *ind, va_list args, char buffer[],
 		{'i', handle_int}, {'d', handle_int}, {'b', handle_binary},
 		{'u', handle_uns}, {'o', handle_octal},
 		{'x', handle_hexadecimal}, {'X', handle_hexa_upper},
-		{'p', handle_pointer}, {'S', handle_non_printable},
+		{'p', write_pointer}, {'S', handle_non_printable},
 		{'r', handle_reverse}, {'R', handle_rot13str}, {'\0', NULL}
 	};
 	for (i = 0; fmt_types[i].fmt != '\0'; i++)
@@ -55,3 +55,4 @@ int handle_specifiers(const char *fmt, int *ind, va_list args, char buffer[],
 		return (unknow_len);
 	}
 	return (printed_chars);
+}

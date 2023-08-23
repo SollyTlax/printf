@@ -145,7 +145,7 @@ int handle_percent(va_list types, char buffer[],
 	(void) buffer;
 	(void) flags;
 	(void) width;
-	(void) precisions;
+	(void) precision;
 	(void) size;
 
 	return (write(1, "%%", 1));

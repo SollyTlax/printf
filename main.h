@@ -37,26 +37,29 @@ int flags, int width, int precision, int size);
 
 /* HANDLE CHARS AND STRINGS FUNCTIONS */
 int handle_char(va_list types, char buffer[], int flags, int width,
-	 int precision, int size);
+	int precision, int size);
 int handle_string(va_list types, char buffer[], int flags, int width,
-	 int precision, int size);
-int handle_percent(void);
+	int precision, int size);
+int handle_percent(va_list types, char buffer[], int flags, int width,
+	int precision, int size);
 
 /*FUNCTIONS TO HANDLE NUMBERS */
 int handle_int(va_list types, char buffer[], int flags, int width,
-	 int precision, int size);
+	int precision, int size);
 int handle_binary(va_list types, char buffer[], int flags, int width,
-	 int precision, int size);
+	int precision, int size);
 int handle_uns(va_list types, char buffer[], int flags, int width,
-	 int precision, int size);
+	int precision, int size);
 int handle_octal(va_list types, char buffer[], int flags, int width,
-	 int precision, int size);
+	int precision, int size);
 int handle_hexadecimal(va_list types, char buffer[], int flags, int width,
-	 int precision, int size);
+	int precision, int size);
 int handle_hexa_upper(va_list types, char buffer[], int flags, int width,
-	 int precision, int size);
+	int precision, int size);
 int handle_hexa(va_list types, char map_to[], char buffer[], int flags,
-	 char flag_ch, int width, int precision, int size);
+	char flag_ch, int width, int precision, int size);
+int handle_pointer(va_list types, char map_to[], char buffer[], int flags,
+	char flag_ch, int width, int precision, int size);
 
 /* FUNCTION TO HANDLE NON-CONVERSION SPECIFIERS */
 int handle_flags(const char *format, int *i);
@@ -72,7 +75,7 @@ int handle_unsign(int is_negative, int ind, char buffer[], int flags,
 	int width, int precision, int size);
 int handle_number(int is_negative, int ind, char buffer[], int flags,
 	int width, int precision, int size);
-int handle_pointer(char buffer[], int ind, int length, int width,
+int write_pointer(char buffer[], int ind, int length, int width,
 	int flags, char padding, char extra_char, int padd_start);
 int handle_reverse(va_list types, char buffer[],
 	int flags, int width, int precision, int size);

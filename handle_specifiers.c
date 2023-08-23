@@ -27,7 +27,7 @@ int handle_specifiers(const char *fmt, int *ind, va_list args, char buffer[],
 		{'c', handle_char}, {'s', handle_string}, {'%', handle_percent},
 		{'i', handle_int}, {'d', handle_int}, {'b', handle_binary},
 		{'u', handle_uns}, {'o', handle_octal},
-		{'x', handle_hexadecimal}, {'X', print_hexa_upper},
+		{'x', handle_hexadecimal}, {'X', handle_hexa_upper},
 		{'p', handle_pointer}, {'S', handle_non_printable},
 		{'r', handle_reverse}, {'R', handle_rot13str}, {'\0', NULL}
 	};

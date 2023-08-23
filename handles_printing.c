@@ -117,9 +117,11 @@ int handle_num_format(int ind, char buffer[],
 int handle_number(int is_negative, int ind, char buffer[], int flags,
 	int width, int precision, int size)
 {
-	(void) size;
+
 	int length = BUFF_SIZE - ind - 1;
 	char padding = ' ', extra_char = 0;
+
+	(void) size;
 
 	if ((flags & FLAG_ZERO) && !(flags & FLAG_MINUS))
 		padding = '0';
@@ -148,11 +150,12 @@ int handle_number(int is_negative, int ind, char buffer[], int flags,
 int handle_unsign(int is_negative, int ind, char buffer[], int flags,
 	int width, int precision, int size)
 {
-	(void) is_negative;
-	(void) size;
+
 	int length = BUFF_SIZE - ind - 1, i = 0;
 	char padding = ' ';
 
+	(void) is_negative;
+	(void) size;
 	if (precision == 0 && ind == BUFF_SIZE - 2 && buffer[ind] == '0')
 		return (0);
 
@@ -188,7 +191,7 @@ int handle_unsign(int is_negative, int ind, char buffer[], int flags,
 }
 
 /**
-* handle_pointer - handles the formatting and writing of memory address pointer
+* write_pointer - handles the formatting and writing of memory address pointer
 * @buffer: buffer itself characters
 * @ind: current undex where the buffer starts
 * @length: the length of the number
@@ -199,7 +202,7 @@ int handle_unsign(int is_negative, int ind, char buffer[], int flags,
 * @padd_start: index of padding start
 * Return: number of written characters
 */
-int handle_pointer(char buffer[], int ind, int length,
+int write_pointer(char buffer[], int ind, int length,
 	int width, int flags, char padding, char extra_char, int padd_start)
 {
 	int i;

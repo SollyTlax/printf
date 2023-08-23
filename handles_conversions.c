@@ -130,11 +130,24 @@ int handle_string(va_list types, char buffer[],
 
 /**
  * handle_percent - Prints a percent symbol
- *
+ * @types: The va_list containing the argument
+ * @buffer: The buffer to store the formatted string
+ * @flags: Formatting flags
+ * @width: Minimum field width
+ * @precision: Precision for printing
+ * @size: The size modifier for the number
  * Return: The number of characters written
  */
-int handle_percent(void)
+int handle_percent(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
+	(void) types;
+	(void) buffer;
+	(void) flags;
+	(void) width;
+	(void) precisions;
+	(void) size;
+
 	return (write(1, "%%", 1));
 }
 

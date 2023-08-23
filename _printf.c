@@ -62,7 +62,7 @@ int _printf(const char *format, ...)
  */
 void handle_buffer(char buffer[], int *buffer_ind)
 {
-	if (buffer_ind > 0)
+	if (buffer_ind != NULL)
 		write(1, &buffer[0], *buffer_ind);
 	*buffer_ind = 0;
 }

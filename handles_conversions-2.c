@@ -32,7 +32,7 @@
 
 	while (str[i] != '\0')
 	{
-		if (is_printable(str[i]))
+		if (handle_printable(str[i]))
 			buffer[i + offset] = str[i];
 		else
 			offset += add_hexa_code(str[i], buffer, i + offset);
@@ -59,7 +59,7 @@ int handle_pointer(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
 	char extra_char = 0, padding = ' ';
-	int index = BUFF_SIZE - 2, length = 2, padd_start = 1;
+	int ind = BUFF_SIZE - 2, length = 2, padd_start = 1;
 	unsigned long num_addrs;
 	char map_to[] = "0123456789abcdef";
 	void *addrs = va_arg(types, void *);
@@ -92,7 +92,7 @@ int handle_pointer(va_list types, char buffer[],
 	index++;
 
 	/*return (write(1, &buffer[i], BUFF_SIZE - i - 1));*/
-	return (handle_pointer(buffer, index, length,
+	return (write_pointer(buffer, ind, length,
 		width, flags, padding, extra_char, padd_start));
 }
 
